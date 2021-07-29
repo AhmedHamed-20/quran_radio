@@ -4,15 +4,14 @@ Widget popularStation({BuildContext? context, String? name, String? url}) {
   return Column(
     children: [
       Container(
-        width: 45,
-        height: 45,
+        width: 50,
+        height: 50,
         decoration: BoxDecoration(
-          color: Colors.white70,
           image: DecorationImage(
-            image: AssetImage('assets/images/photo.png'),
+            image: AssetImage('assets/images/live.gif'),
             fit: BoxFit.cover,
           ),
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(10),
         ),
       ),
       SizedBox(

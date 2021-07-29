@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 Widget stations({BuildContext? context, String? name, String? url}) {
   return Card(
-    color: Colors.grey[100],
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+    color: Colors.white,
     elevation: 0,
     child: ListTile(
       title: Text(name!),
