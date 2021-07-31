@@ -16,50 +16,89 @@ class PlayingScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(),
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            title: Text('Will Play '),
+            centerTitle: true,
+          ),
           body: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Center(
-                child: Column(
-                  children: [
-                    Text(name!),
-                    SizedBox(
-                      height: 10,
+              Expanded(
+                child: Container(
+                  child: Center(
+                      child: Text(
+                    name!,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            cubit.selected(index!);
-                            if (cubit.audioSelectedList[index!] == true &&
-                                state is IsPlaying) {
-                              cubit.stopaudio();
-                            } else if (state is IsPlaying &&
-                                cubit.audioSelectedList[index!] == false) {
-                              cubit.playaudio(url!);
-                            } else {
-                              cubit.playaudio(url!);
-                            }
-                          },
-                          child: Icon(
-                            (state is IsPlaying &&
-                                    cubit.audioSelectedList[index!] == true)
-                                ? Icons.pause
-                                : Icons.play_arrow,
-                          ),
-                        ),
-                        InkWell(
-                          child: Icon(
-                            Icons.favorite_outline,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                  )),
                 ),
               ),
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.teal[100],
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(25),
+                      topRight: Radius.circular(25),
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              cubit.selected(index!);
+                              if (cubit.audioSelectedList[index!] == true &&
+                                  state is IsPlaying) {
+                                cubit.stopaudio();
+                              } else if (state is IsPlaying &&
+                                  cubit.audioSelectedList[index!] == false) {
+                                cubit.playaudio(url!);
+                              } else {
+                                cubit.playaudio(url!);
+                              }
+                            },
+                            child: CircleAvatar(
+                              radius: 40,
+                              backgroundColor: Colors.teal[200],
+                              child: Icon(
+                                (state is IsPlaying &&
+                                        cubit.audioSelectedList[index!] == true)
+                                    ? Icons.pause
+                                    : Icons.play_arrow,
+                                color: Colors.teal,
+                                size: 40,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          cubit.changeFavoriteState();
+                          cubit.insertIntoDataBase(name: name, url: url);
+                        },
+                        child: Icon(
+                          cubit.favoriteIsclicked
+                              ? Icons.favorite
+                              : Icons.favorite_outline,
+                          color: Colors.teal,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
             ],
           ),
         );

@@ -15,3 +15,11 @@ class IsPause extends AppState {}
 class IsError extends AppState {}
 
 class IsSelected extends AppState {}
+
+class AppGetDataBase extends AppState {}
+
+class AppCreateDataBase extends AppState {}
+
+class AppInsertDataBase extends AppState {}
+
+class ClickedFavorite extends AppState {}
