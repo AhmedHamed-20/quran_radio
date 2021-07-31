@@ -18,6 +18,7 @@ class Appcubit extends Cubit<AppState> {
     SearchSreen(),
     FavouriteScreen(),
   ];
+
   List<String> title = [
     'Home',
     'Search',
@@ -30,6 +31,16 @@ class Appcubit extends Cubit<AppState> {
 
   Map<String, dynamic> radio = {};
   List<dynamic> data = [];
+  List<bool> audioSelectedList = [false];
+  selected(int index) {
+// set only one bool to be true
+    emit(IsSelected());
+    audioSelectedList =
+        List.generate(radio['radios'].length, (i) => false); // set all to false
+    audioSelectedList[index] = true;
+    print(radio['radios'].length);
+  }
+
   Future getdata() async {
     emit(LoadingState());
     var response = await Dio()
@@ -49,20 +60,40 @@ class Appcubit extends Cubit<AppState> {
     );
   }
 
+  bool isplay = false;
   AssetsAudioPlayer audioStreamPlayer = AssetsAudioPlayer();
-  Future playaudio() async {
-    try {
-      await audioStreamPlayer.open(
-        Audio.liveStream('http://live.mp3quran.net:9718/'),
-        showNotification: true,
-      );
-    } catch (t) {
-      print(t);
-    }
+  Future playaudio(String url) async {
+    // pauseaudio();
+    await audioStreamPlayer
+        .open(
+      Audio.liveStream(url),
+      showNotification: true,
+    )
+        .then((value) {
+      isplay = true;
+      emit(IsPlaying());
+    }).catchError((onError) {
+      print(onError);
+    });
   }
 
-  pauseaudio() {
-    audioStreamPlayer.pause();
+  bool isClicked = false;
+  List<bool> items = [];
+  // changeclick() {
+  //   isClicked = !isClicked;
+  //   print(radio['radios'].length);
+  //   print(items);
+  //   emit(IsSelected());
+  // }
+
+  pauseaudio() async {
+    await audioStreamPlayer.pause().then((value) {
+      emit(IsPause());
+      isplay = false;
+    }).catchError((onError) {
+      emit(IsError());
+      print(onError);
+    });
   }
 
   stopaudio() {

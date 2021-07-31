@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quran_radio/models/cubit/cubit.dart';
 import 'package:quran_radio/models/popular_list.dart';
 import 'package:quran_radio/models/states/states.dart';
+import 'package:quran_radio/widgets/bottom_sheet.dart';
 import 'package:quran_radio/widgets/popular_station.dart';
 import 'package:quran_radio/widgets/stations.dart';
 
@@ -17,7 +18,7 @@ class LayoutScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
-          backgroundColor: Colors.teal[50],
+          backgroundColor: Colors.white,
           bottomNavigationBar: BottomNavigationBar(
             onTap: (index) {
               cubit.changBottomnav(index);
