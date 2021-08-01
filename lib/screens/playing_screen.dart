@@ -7,12 +7,14 @@ class PlayingScreen extends StatelessWidget {
   String? name;
   String? url;
   int? index;
-  PlayingScreen({this.name, this.url, this.index});
+  int? length;
+  PlayingScreen({this.name, this.url, this.index, this.length});
 
   @override
   Widget build(BuildContext context) {
     var cubit = Appcubit.get(context);
     return BlocConsumer<Appcubit, AppState>(
+      //  bloc: Appcubit()
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
@@ -54,23 +56,18 @@ class PlayingScreen extends StatelessWidget {
                         children: [
                           InkWell(
                             onTap: () {
-                              cubit.selected(index!);
-                              if (cubit.audioSelectedList[index!] == true &&
-                                  state is IsPlaying) {
+                              // cubit.selected2(index!, length!);
+                              if (name == cubit.currentplayingname) {
                                 cubit.stopaudio();
-                              } else if (state is IsPlaying &&
-                                  cubit.audioSelectedList[index!] == false) {
-                                cubit.playaudio(url!);
                               } else {
-                                cubit.playaudio(url!);
+                                cubit.playaudio(url!, name!);
                               }
                             },
                             child: CircleAvatar(
                               radius: 40,
                               backgroundColor: Colors.teal[200],
                               child: Icon(
-                                (state is IsPlaying &&
-                                        cubit.audioSelectedList[index!] == true)
+                                (name == cubit.currentplayingname)
                                     ? Icons.pause
                                     : Icons.play_arrow,
                                 color: Colors.teal,
@@ -86,10 +83,14 @@ class PlayingScreen extends StatelessWidget {
                       InkWell(
                         onTap: () {
                           cubit.changeFavoriteState();
-                          cubit.insertIntoDataBase(name: name, url: url);
+                          cubit.insertIntoDataBase(name: name!, url: url!);
+
+                          print(name);
+                          print(url);
                         },
                         child: Icon(
                           cubit.favoriteIsclicked
+                              //  cubit.favorite[index!]['isFavorite'] == 'true'
                               ? Icons.favorite
                               : Icons.favorite_outline,
                           color: Colors.teal,

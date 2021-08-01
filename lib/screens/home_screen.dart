@@ -130,6 +130,7 @@ class HomeScreen extends StatelessWidget {
                                           index: index,
                                           name: popular[index],
                                           url: url,
+                                          length: popular.length,
                                         ),
                                       ),
                                     );
@@ -187,18 +188,16 @@ class HomeScreen extends StatelessWidget {
                                     key: Key(index.toString()),
                                     onTap: () {
                                       cubit.selected(index);
-                                      if (cubit.audioSelectedList[index] ==
-                                              true &&
-                                          state is IsPlaying) {
+                                      if (cubit.radio['radios'][index]
+                                              ['name'] ==
+                                          cubit.currentplayingname) {
                                         cubit.stopaudio();
-                                      } else if (state is IsPlaying &&
-                                          cubit.audioSelectedList[index] ==
-                                              false) {
-                                        cubit.playaudio(cubit.radio['radios']
-                                            [index]['radio_url']);
                                       } else {
-                                        cubit.playaudio(cubit.radio['radios']
-                                            [index]['radio_url']);
+                                        cubit.playaudio(
+                                            cubit.radio['radios'][index]
+                                                ['radio_url'],
+                                            cubit.radio['radios'][index]
+                                                ['name']);
                                       }
                                     },
                                     child: CircleAvatar(
@@ -206,10 +205,8 @@ class HomeScreen extends StatelessWidget {
                                       backgroundColor: Colors.teal[100],
                                       radius: 25,
                                       child: Icon(
-                                        (state is IsPlaying &&
-                                                cubit.audioSelectedList[
-                                                        index] ==
-                                                    true)
+                                        (cubit.radio['radios'][index]['name'] ==
+                                                cubit.currentplayingname)
                                             ? Icons.pause
                                             : Icons.play_arrow,
                                         color: Colors.teal[300],
@@ -228,6 +225,7 @@ class HomeScreen extends StatelessWidget {
                                             ['name'],
                                         url: cubit.radio['radios'][index]
                                             ['radio_url'],
+                                        length: cubit.radio['radios'].length,
                                       ),
                                     ),
                                   );

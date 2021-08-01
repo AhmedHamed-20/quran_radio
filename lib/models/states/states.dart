@@ -23,3 +23,5 @@ class AppCreateDataBase extends AppState {}
 class AppInsertDataBase extends AppState {}
 
 class ClickedFavorite extends AppState {}
+
+class StopAudio extends AppState {}

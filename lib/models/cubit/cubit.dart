@@ -26,6 +26,14 @@ class Appcubit extends Cubit<AppState> {
     'Search',
     'Favorite',
   ];
+
+  String currentplayingname = 'nothing';
+
+  changeCurrentplay(String name) {
+    currentplayingname = name;
+    print(currentplayingname);
+  }
+
   Database? database;
   void changBottomnav(int index) {
     currentindex = index;
@@ -40,6 +48,7 @@ class Appcubit extends Cubit<AppState> {
 
   List<Map> favorite = [];
   void createData() {
+    emit(LoadingState());
     openDatabase(
       'favorite.db',
       version: 1,
@@ -56,6 +65,7 @@ class Appcubit extends Cubit<AppState> {
       onOpen: (createdDataBase) {
         getdataFromDataBase(createdDataBase).then((value) {
           favorite = value;
+          database = createdDataBase;
           print(favorite);
           emit(AppGetDataBase());
         });
@@ -74,6 +84,8 @@ class Appcubit extends Cubit<AppState> {
   Map<String, dynamic> radio = {};
   List<dynamic> data = [];
   List<bool> audioSelectedList = [false];
+  List<bool> audioSelectedList2 = [false];
+  List<bool> audioSelectedList3 = [false];
   selected(int index) {
 // set only one bool to be true
     emit(IsSelected());
@@ -83,12 +95,30 @@ class Appcubit extends Cubit<AppState> {
     print(radio['radios'].length);
   }
 
+  selected2(int index, int length) {
+// set only one bool to be true
+    emit(IsSelected());
+    audioSelectedList2 =
+        List.generate(length, (i) => false); // set all to false
+    audioSelectedList2[index] = true;
+    print(length);
+  }
+
+  selected3(int index, int length) {
+// set only one bool to be true
+    emit(IsSelected());
+    audioSelectedList3 =
+        List.generate(length, (i) => false); // set all to false
+    audioSelectedList3[index] = true;
+    print(length);
+  }
+
   insertIntoDataBase({
     String? name,
     String? url,
   }) async {
-    await database!.transaction((txn) {
-      return txn.rawInsert('INSERT INTO favorite(name, url) VALUES(?, ?)',
+    return await database!.transaction((txn) async {
+      await txn.rawInsert('INSERT INTO favorite(name, url) VALUES(?, ?)',
           ['$name', '$url']).then(
         (value) {
           print('Inserted succ');
@@ -117,6 +147,7 @@ class Appcubit extends Cubit<AppState> {
         radio = Map<String, dynamic>.from(value.data);
         data = radio['radios'];
         //  data = value.data;
+        createData();
         emit(SuccesState());
         print(radio);
       },
@@ -129,8 +160,8 @@ class Appcubit extends Cubit<AppState> {
 
   bool isplay = false;
   AssetsAudioPlayer audioStreamPlayer = AssetsAudioPlayer();
-  Future playaudio(String url) async {
-    // pauseaudio();
+  Future playaudio(String url, String name) async {
+    pauseaudio();
     await audioStreamPlayer
         .open(
       Audio.liveStream(url),
@@ -138,6 +169,7 @@ class Appcubit extends Cubit<AppState> {
     )
         .then((value) {
       isplay = true;
+      changeCurrentplay(name);
       emit(IsPlaying());
     }).catchError((onError) {
       print(onError);
@@ -157,6 +189,7 @@ class Appcubit extends Cubit<AppState> {
     await audioStreamPlayer.pause().then((value) {
       emit(IsPause());
       isplay = false;
+      changeCurrentplay('nothing');
     }).catchError((onError) {
       emit(IsError());
       print(onError);
@@ -165,5 +198,7 @@ class Appcubit extends Cubit<AppState> {
 
   stopaudio() {
     audioStreamPlayer.stop();
+    changeCurrentplay('nothing');
+    emit(StopAudio());
   }
 }
