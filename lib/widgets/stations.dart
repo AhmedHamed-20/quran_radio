@@ -24,7 +24,7 @@ Widget stations(
         height: 50,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/radio.png'),
+            image: AssetImage('assets/images/microfone.png'),
             fit: BoxFit.contain,
           ),
           borderRadius: BorderRadius.circular(15),

@@ -33,3 +33,5 @@ class NotFonundSearch extends AppState {}
 class AppDeleteFromDataBase extends AppState {}
 
 class PlayErrorState extends AppState {}
+
+class NoInternetState extends AppState {}

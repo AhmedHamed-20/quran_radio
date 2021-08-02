@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:assets_audio_player/assets_audio_player.dart';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:quran_radio/models/states/states.dart';
 import 'package:quran_radio/screens/current_playing_screen.dart';
 import 'package:quran_radio/screens/favourite_screen.dart';
@@ -253,80 +257,122 @@ class Appcubit extends Cubit<AppState> {
     });
   }
 
+  bool NoInternet = false;
   bool PlayError = false;
+  Future<bool> noInternet() async {
+    bool result = await InternetConnectionChecker().hasConnection;
+    if (result == true) {
+      NoInternet = false;
+      return false;
+    } else {
+      NoInternet = true;
+      emit(NoInternetState());
+      return true;
+    }
+  }
+
+  Navigate(Widget Screen, BuildContext context) async {
+    bool result = await InternetConnectionChecker().hasConnection;
+    if (result == true) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Screen),
+      );
+    } else {
+      print('No Internet');
+    }
+  }
+
   Future getdata() async {
     emit(LoadingState());
-    var response = await Dio()
-        .get('http://api.mp3quran.net/radios/radio_arabic.json')
-        .then(
-      (value) {
-        radio = Map<String, dynamic>.from(value.data);
-        data = radio['radios'];
-        //  data = value.data;
-        createData();
-        emit(SuccesState());
-        print(radio);
-      },
-    ).onError(
-      (error, stackTrace) {
-        print(error);
-      },
-    );
+    NoInternet = false;
+
+    bool result = await InternetConnectionChecker().hasConnection;
+    if (result == true) {
+      print('connected');
+      var response = await Dio()
+          .get('http://api.mp3quran.net/radios/radio_arabic.json')
+          .then(
+        (value) {
+          radio = Map<String, dynamic>.from(value.data);
+          data = radio['radios'];
+          //  data = value.data;
+          createData();
+          emit(SuccesState());
+
+          print(radio);
+        },
+      ).onError(
+        (error, stackTrace) {
+          print(error);
+        },
+      );
+    }
+
+    // I am connected to a wifi network.
+    else {
+      NoInternet = true;
+    }
   }
 
   bool isplay = false;
   AssetsAudioPlayer audioStreamPlayer = AssetsAudioPlayer();
   // AssetsAudioPlayerCache cache;
   Future playaudio(String url, String name, BuildContext context) async {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          'Loading....',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        backgroundColor: Colors.teal[200],
-        duration: Duration(seconds: 2),
-      ),
-    );
-    try {
-      var response = await Dio().head(url);
-      if (response.statusCode == 200) {
-        pauseaudio();
-        print('success');
-        await audioStreamPlayer
-            .open(
-          Audio.liveStream(url),
-          showNotification: true,
-        )
-            .then((value) {
-          isplay = true;
-          PlayError = false;
-          changeCurrentplay(name, url);
-          emit(IsPlaying());
-        });
-      }
-    } catch (error) {
-      PlayError = true;
-      emit(PlayErrorState());
+    bool result = await InternetConnectionChecker().hasConnection;
+    if (result == true) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            'Error in Station!',
+            'Loading....',
             style: TextStyle(
               color: Colors.white,
               fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
           ),
-          backgroundColor: Colors.red,
+          backgroundColor: Colors.teal[200],
+          duration: Duration(seconds: 2),
         ),
       );
+      try {
+        var response = await Dio().head(url);
+        if (response.statusCode == 200) {
+          pauseaudio();
+          print('success');
+          await audioStreamPlayer
+              .open(
+            Audio.liveStream(url),
+            showNotification: true,
+          )
+              .then((value) {
+            isplay = true;
+            PlayError = false;
+            changeCurrentplay(name, url);
+            emit(IsPlaying());
+          });
+        }
+      } catch (error) {
+        PlayError = true;
+        emit(PlayErrorState());
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Error in Station!',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            backgroundColor: Colors.red,
+          ),
+        );
 
-      print(error);
+        print(error);
+      }
+    } else {
+      NoInternet = true;
     }
 
     // try {
