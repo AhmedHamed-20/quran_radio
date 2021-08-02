@@ -7,6 +7,7 @@ import 'package:quran_radio/models/states/states.dart';
 import 'package:quran_radio/screens/playing_screen.dart';
 import 'package:quran_radio/widgets/bottom_sheet.dart';
 import 'package:quran_radio/widgets/popular_station.dart';
+import 'package:quran_radio/widgets/snack_bar.dart';
 import 'package:quran_radio/widgets/stations.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -197,7 +198,8 @@ class HomeScreen extends StatelessWidget {
                                             cubit.radio['radios'][index]
                                                 ['radio_url'],
                                             cubit.radio['radios'][index]
-                                                ['name']);
+                                                ['name'],
+                                            context);
                                       }
                                     },
                                     child: CircleAvatar(

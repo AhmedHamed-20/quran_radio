@@ -15,10 +15,10 @@ Widget trailingWidget({BuildContext? context, int? index, AppState? state}) {
           } else if (state is IsPlaying &&
               cubit.audioSelectedList[index] == false) {
             cubit.playaudio(cubit.radio['radios'][index]['radio_url'],
-                cubit.radio['radios'][index]['name']);
+                cubit.radio['radios'][index]['name'], context!);
           } else {
             cubit.playaudio(cubit.radio['radios'][index]['radio_url'],
-                cubit.radio['radios'][index]['name']);
+                cubit.radio['radios'][index]['name'], context!);
           }
         },
         child: CircleAvatar(

@@ -3,7 +3,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:quran_radio/models/states/states.dart';
+import 'package:quran_radio/screens/current_playing_screen.dart';
 import 'package:quran_radio/screens/favourite_screen.dart';
 import 'package:quran_radio/screens/home_screen.dart';
 import 'package:quran_radio/screens/layout_screen.dart';
@@ -17,20 +19,23 @@ class Appcubit extends Cubit<AppState> {
 
   List<Widget> screen = [
     HomeScreen(),
+    CurrentPlaying(),
     SearchSreen(),
     FavouriteScreen(),
   ];
 
   List<String> title = [
     'Home',
+    'Playing Now',
     'Search',
     'Favorite',
   ];
 
   String currentplayingname = 'nothing';
-
-  changeCurrentplay(String name) {
+  String currentplayingurl = 'nothing';
+  changeCurrentplay(String name, String url) {
     currentplayingname = name;
+    currentplayingurl = url;
     print(currentplayingname);
   }
 
@@ -47,6 +52,45 @@ class Appcubit extends Cubit<AppState> {
   }
 
   List<Map> favorite = [];
+  List<Map> search = [];
+  bool Notfound = false;
+
+  bool searchInFavorite(String name) {
+    for (int i = 0; i <= favorite.length; i++) {
+      try {
+        if (name == favorite[i]['name']) {
+          return true;
+        }
+      } catch (onerror) {
+        print(onerror);
+      }
+    }
+    return false;
+  }
+
+  searchName(String name) {
+    for (int i = 0; i <= radio['radios'].length; i++) {
+      try {
+        if (name == radio['radios'][i]['name']) {
+          search = [
+            {
+              'name': name,
+              'url': radio['radios'][i]['radio_url'],
+            }
+          ];
+          emit(SearchScreen());
+          print(search);
+          Notfound = false;
+          break;
+        }
+      } catch (error) {
+        print(error);
+        Notfound = true;
+        emit(NotFonundSearch());
+      }
+    }
+  }
+
   void createData() {
     emit(LoadingState());
     openDatabase(
@@ -79,6 +123,63 @@ class Appcubit extends Cubit<AppState> {
 
   Future<List<Map>> getdataFromDataBase(createdDataBase) async {
     return await createdDataBase.rawQuery('SELECT * FROM favorite');
+  }
+
+  void deleteFromDataBase(int id, BuildContext context) async {
+    await database!
+        .rawDelete('DELETE FROM favorite WHERE id = ?', [id]).then((value) {
+      getdataFromDataBase(database).then((value) {
+        favorite = value;
+        emit(AppGetDataBase());
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Deleted ',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            backgroundColor: Colors.teal[200],
+            duration: Duration(seconds: 2),
+          ),
+        );
+      });
+      emit(AppDeleteFromDataBase());
+      print('deleted');
+    }).catchError((onError) {
+      print(onError);
+    });
+  }
+
+  void deleteFromDataBaseName(String name, BuildContext context) async {
+    await database!
+        .rawDelete('DELETE FROM favorite WHERE name = ?', [name]).then((value) {
+      getdataFromDataBase(database).then((value) {
+        favorite = value;
+        emit(AppGetDataBase());
+      });
+      favoriteIsclicked = false;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Deleted From Favorites Screen',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          backgroundColor: Colors.teal[200],
+          duration: Duration(seconds: 2),
+        ),
+      );
+      emit(AppDeleteFromDataBase());
+      print('deleted');
+    }).catchError((onError) {
+      print(onError);
+    });
   }
 
   Map<String, dynamic> radio = {};
@@ -116,6 +217,7 @@ class Appcubit extends Cubit<AppState> {
   insertIntoDataBase({
     String? name,
     String? url,
+    BuildContext? context,
   }) async {
     return await database!.transaction((txn) async {
       await txn.rawInsert('INSERT INTO favorite(name, url) VALUES(?, ?)',
@@ -124,10 +226,23 @@ class Appcubit extends Cubit<AppState> {
           print('Inserted succ');
 
           emit(AppInsertDataBase());
-
           getdataFromDataBase(database).then((value) {
             favorite = value;
             print(favorite);
+            ScaffoldMessenger.of(context!).showSnackBar(
+              SnackBar(
+                content: Text(
+                  'Added To Favorites Screen',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                backgroundColor: Colors.teal[200],
+                duration: Duration(seconds: 2),
+              ),
+            );
             emit(AppGetDataBase());
             favoriteIsclicked = false;
           });
@@ -138,6 +253,7 @@ class Appcubit extends Cubit<AppState> {
     });
   }
 
+  bool PlayError = false;
   Future getdata() async {
     emit(LoadingState());
     var response = await Dio()
@@ -160,20 +276,69 @@ class Appcubit extends Cubit<AppState> {
 
   bool isplay = false;
   AssetsAudioPlayer audioStreamPlayer = AssetsAudioPlayer();
-  Future playaudio(String url, String name) async {
-    pauseaudio();
-    await audioStreamPlayer
-        .open(
-      Audio.liveStream(url),
-      showNotification: true,
-    )
-        .then((value) {
-      isplay = true;
-      changeCurrentplay(name);
-      emit(IsPlaying());
-    }).catchError((onError) {
-      print(onError);
-    });
+  // AssetsAudioPlayerCache cache;
+  Future playaudio(String url, String name, BuildContext context) async {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'Loading....',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: Colors.teal[200],
+        duration: Duration(seconds: 2),
+      ),
+    );
+    try {
+      var response = await Dio().head(url);
+      if (response.statusCode == 200) {
+        pauseaudio();
+        print('success');
+        await audioStreamPlayer
+            .open(
+          Audio.liveStream(url),
+          showNotification: true,
+        )
+            .then((value) {
+          isplay = true;
+          PlayError = false;
+          changeCurrentplay(name, url);
+          emit(IsPlaying());
+        });
+      }
+    } catch (error) {
+      PlayError = true;
+      emit(PlayErrorState());
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Error in Station!',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          backgroundColor: Colors.red,
+        ),
+      );
+
+      print(error);
+    }
+
+    // try {
+    //
+    // } catch (error) {
+    //   audioStreamPlayer.onErrorDo = (handler) {
+    //     handler.player.stop();
+    //   };
+    //   //   stopaudio();
+    //   //    audioStreamPlayer.dispose();
+    //   print(error);
+    // }
   }
 
   bool isClicked = false;
@@ -189,7 +354,7 @@ class Appcubit extends Cubit<AppState> {
     await audioStreamPlayer.pause().then((value) {
       emit(IsPause());
       isplay = false;
-      changeCurrentplay('nothing');
+      changeCurrentplay('nothing', 'nothing');
     }).catchError((onError) {
       emit(IsError());
       print(onError);
@@ -198,7 +363,7 @@ class Appcubit extends Cubit<AppState> {
 
   stopaudio() {
     audioStreamPlayer.stop();
-    changeCurrentplay('nothing');
+    changeCurrentplay('nothing', 'nothing');
     emit(StopAudio());
   }
 }

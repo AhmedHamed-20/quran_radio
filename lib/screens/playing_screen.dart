@@ -60,8 +60,9 @@ class PlayingScreen extends StatelessWidget {
                               if (name == cubit.currentplayingname) {
                                 cubit.stopaudio();
                               } else {
-                                cubit.playaudio(url!, name!);
+                                cubit.playaudio(url!, name!, context);
                               }
+                              print(cubit.searchInFavorite(name!));
                             },
                             child: CircleAvatar(
                               radius: 40,
@@ -83,16 +84,21 @@ class PlayingScreen extends StatelessWidget {
                       InkWell(
                         onTap: () {
                           cubit.changeFavoriteState();
-                          cubit.insertIntoDataBase(name: name!, url: url!);
+                          cubit.searchInFavorite(name!)
+                              ? cubit.deleteFromDataBaseName(name!, context)
+                              : cubit.insertIntoDataBase(
+                                  name: name!, url: url!, context: context);
 
-                          print(name);
+                          print(index);
                           print(url);
                         },
                         child: Icon(
-                          cubit.favoriteIsclicked
+                          cubit.searchInFavorite(name!)
                               //  cubit.favorite[index!]['isFavorite'] == 'true'
                               ? Icons.favorite
-                              : Icons.favorite_outline,
+                              : cubit.favoriteIsclicked
+                                  ? Icons.favorite
+                                  : Icons.favorite_outline,
                           color: Colors.teal,
                         ),
                       ),

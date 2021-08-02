@@ -20,31 +20,41 @@ class FavouriteScreen extends StatelessWidget {
                 )
               : ListView.builder(
                   itemBuilder: (context, index) {
-                    return stations(
-                      url: cubit.favorite[index]['url'],
-                      name: cubit.favorite[index]['name'],
-                      context: context,
-                      button: InkWell(
-                        onTap: () {
-                          // cubit.selected(index);
-                          if (cubit.favorite[index]['name'] ==
-                              cubit.currentplayingname) {
-                            cubit.stopaudio();
-                          } else {
-                            cubit.playaudio(cubit.favorite[index]['url'],
-                                cubit.favorite[index]['name']);
-                          }
-                        },
-                        child: CircleAvatar(
-                          radius: 30,
-                          backgroundColor: Colors.teal[200],
-                          child: Icon(
-                            (cubit.favorite[index]['name'] ==
-                                    cubit.currentplayingname)
-                                ? Icons.pause
-                                : Icons.play_arrow,
-                            color: Colors.teal,
-                            size: 30,
+                    return Dismissible(
+                      background: Container(
+                        color: Colors.teal[200],
+                      ),
+                      key: Key(cubit.favorite[index]['id'].toString()),
+                      onDismissed: (directhion) {
+                        cubit.deleteFromDataBase(
+                            cubit.favorite[index]['id'], context);
+                      },
+                      child: stations(
+                        url: cubit.favorite[index]['url'],
+                        name: cubit.favorite[index]['name'],
+                        context: context,
+                        button: InkWell(
+                          onTap: () {
+                            // cubit.selected(index);
+                            if (cubit.favorite[index]['name'] ==
+                                cubit.currentplayingname) {
+                              cubit.stopaudio();
+                            } else {
+                              cubit.playaudio(cubit.favorite[index]['url'],
+                                  cubit.favorite[index]['name'], context);
+                            }
+                          },
+                          child: CircleAvatar(
+                            radius: 30,
+                            backgroundColor: Colors.teal[200],
+                            child: Icon(
+                              (cubit.favorite[index]['name'] ==
+                                      cubit.currentplayingname)
+                                  ? Icons.pause
+                                  : Icons.play_arrow,
+                              color: Colors.teal,
+                              size: 30,
+                            ),
                           ),
                         ),
                       ),

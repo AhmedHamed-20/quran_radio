@@ -20,6 +20,8 @@ class LayoutScreen extends StatelessWidget {
         return Scaffold(
           backgroundColor: Colors.white,
           bottomNavigationBar: BottomNavigationBar(
+            selectedItemColor: Colors.teal,
+            unselectedItemColor: Colors.grey,
             onTap: (index) {
               cubit.changBottomnav(index);
             },
@@ -28,6 +30,10 @@ class LayoutScreen extends StatelessWidget {
               BottomNavigationBarItem(
                 icon: Icon(Icons.home_filled),
                 label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.headset_rounded),
+                label: 'Current Playing',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.search),

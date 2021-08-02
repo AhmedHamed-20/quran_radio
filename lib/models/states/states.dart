@@ -25,3 +25,11 @@ class AppInsertDataBase extends AppState {}
 class ClickedFavorite extends AppState {}
 
 class StopAudio extends AppState {}
+
+class SearchScreen extends AppState {}
+
+class NotFonundSearch extends AppState {}
+
+class AppDeleteFromDataBase extends AppState {}
+
+class PlayErrorState extends AppState {}
