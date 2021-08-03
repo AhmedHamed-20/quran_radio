@@ -33,10 +33,22 @@ class CurrentPlaying extends StatelessWidget {
                 ),
               )
             : Scaffold(
+                backgroundColor: Colors.white,
                 body: Center(
                   child: cubit.currentplayingname == 'nothing'
                       ? Center(
-                          child: Text('No playing media Running'),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset('assets/images/empty.png'),
+                              Text(
+                                'No playing media Running',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ],
+                          ),
                         )
                       : Column(
                           mainAxisAlignment: MainAxisAlignment.start,

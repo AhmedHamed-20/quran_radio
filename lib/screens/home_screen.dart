@@ -51,16 +51,6 @@ class HomeScreen extends StatelessWidget {
                     body: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // MaterialButton(
-                        //   onPressed: () {
-                        //     for (int i = 0; i < cubit.radio['radios'].length; i++) {
-                        //       if (cubit.radio['radios'][i]['name'] ==
-                        //           'عبدالباسط عبدالصمد')
-                        //         print(cubit.radio['radios'][i]['radio_url']);
-                        //     }
-                        //   },
-                        //   color: Colors.black,
-                        // ),
                         Padding(
                           padding: const EdgeInsets.only(left: 15, bottom: 10),
                           child: Text(

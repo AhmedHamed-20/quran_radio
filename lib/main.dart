@@ -1,3 +1,5 @@
+import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quran_radio/models/states/states.dart';
@@ -25,7 +27,15 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               primaryColor: Colors.teal[300],
             ),
-            home: LayoutScreen(),
+            home: AnimatedSplashScreen(
+              splashIconSize: 200,
+              backgroundColor: Color(0xffF4CE57),
+              splash: Image.asset(
+                'assets/images/splash.gif',
+              ),
+              nextScreen: LayoutScreen(),
+              splashTransition: SplashTransition.fadeTransition,
+            ),
           );
         },
       ),

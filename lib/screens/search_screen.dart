@@ -66,7 +66,12 @@ class SearchSreen extends StatelessWidget {
                           flex: 3,
                           child: cubit.search.length == 0
                               ? Center(
-                                  child: Text('Start Search Now'),
+                                  child: Text(
+                                    'Start Search Now',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                    ),
+                                  ),
                                 )
                               : cubit.Notfound
                                   ? Text('Not Found')
