@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:quran_radio/models/cubit/cubit.dart';
 import 'package:quran_radio/models/popular_list.dart';
 import 'package:quran_radio/models/states/states.dart';
@@ -89,55 +88,13 @@ class HomeScreen extends StatelessWidget {
                                             url = cubit.radio['radios'][i]
                                                 ['radio_url'];
                                             break;
-                                            // showModalBottomSheet<void>(
-                                            //     builder: (BuildContext context) {
-                                            //       return bottomsheetdata(
-                                            //         name: popular[index],
-                                            //         index: index,
-                                            //       );
-                                            //     },
-                                            //     context: (context));
                                           } else {
                                             continue;
                                           }
                                         }
                                         print(url);
                                         //
-                                        // var snackBar = SnackBar(
-                                        //   content: bottomsheetdata(
-                                        //     name: popular[index],
-                                        //     index: index,
-                                        //     context: context,
-                                        //     url: url,
-                                        //     state: state,
-                                        //     button: InkWell(
-                                        //       onTap: () {
-                                        //         var cubit = Appcubit.get(context);
-                                        //         cubit.playaudio(url!);
-                                        //         cubit.isplay
-                                        //             ? cubit.stopaudio()
-                                        //             : cubit.playaudio(url);
-                                        //       },
-                                        //       child: CircleAvatar(
-                                        //         key: Key(index.toString()),
-                                        //         backgroundColor: Colors.teal[100],
-                                        //         radius: 25,
-                                        //         child: Icon(
-                                        //           Icons.play_arrow,
-                                        //           color: Colors.teal[200],
-                                        //           key: Key(
-                                        //             index.toString(),
-                                        //           ),
-                                        //         ),
-                                        //       ),
-                                        //     ),
-                                        //   ),
-                                        //   behavior: SnackBarBehavior.floating,
-                                        //   duration: Duration(days: 365),
-                                        //   backgroundColor: Colors.teal[300],
-                                        // );
-                                        // ScaffoldMessenger.of(context)
-                                        //     .showSnackBar(snackBar);
+
                                         cubit.Navigate(
                                             PlayingScreen(
                                               index: index,
@@ -178,26 +135,11 @@ class HomeScreen extends StatelessWidget {
                                   color: Colors.teal[50],
                                   elevation: 0,
                                   child: InkWell(
-                                    child: ListTile(
-                                      //   selected: cubit.audioSelectedList[index],
-                                      key: Key(index.toString()),
-                                      contentPadding: EdgeInsets.all(8),
-                                      title: Text(
-                                          cubit.radio['radios'][index]['name']),
-                                      leading: Container(
-                                        width: 50,
-                                        height: 50,
-                                        decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                            image: AssetImage(
-                                                'assets/images/microfone.png'),
-                                            fit: BoxFit.contain,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                        ),
-                                      ),
-                                      trailing: InkWell(
+                                    child: stations(
+                                      context: context,
+                                      name: cubit.radio['radios'][index]
+                                          ['name'],
+                                      button: InkWell(
                                         key: Key(index.toString()),
                                         onTap: () {
                                           cubit.selected(index);
@@ -229,6 +171,10 @@ class HomeScreen extends StatelessWidget {
                                           ),
                                         ),
                                       ),
+                                      url: cubit.radio['radios'][index]
+                                          ['radio_url'],
+                                      index: index,
+                                      state: state,
                                     ),
                                     onTap: () {
                                       Navigator.push(
@@ -257,32 +203,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
-//
-// stations(
-// name: cubit.radio['radios'][index]['name'],
-// context: context,
-// url: cubit.radio['radios'][index]['radio_url'],
-// state: state,
-// index: index,
-// button: InkWell(
-// onTap: () {
-// state is IsPlaying
-// ? cubit.pauseaudio()
-//     : cubit.playaudio(cubit.radio['radios']
-// [index]['radio_url']);
-// cubit.changeclick();
-// },
-// child: CircleAvatar(
-// backgroundColor: Colors.teal[100],
-// radius: 25,
-// child: Icon(
-// (state is IsPlaying &&
-// cubit.isClicked == true)
-// ? Icons.pause
-//     : Icons.play_arrow,
-//
-// ),
-// ),
-// ),
-// );

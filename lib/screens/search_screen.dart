@@ -49,6 +49,9 @@ class SearchSreen extends StatelessWidget {
                             keyboardType: TextInputType.text,
                             onChanged: (value) {
                               searchvalue = value;
+                              cubit.searchName(
+                                value.trim(),
+                              );
                             },
                             onSubmitted: (val) {
                               cubit.searchName(

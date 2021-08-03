@@ -109,27 +109,6 @@ class CurrentPlaying extends StatelessWidget {
                                     SizedBox(
                                       height: 20,
                                     ),
-                                    // InkWell(
-                                    //   onTap: () {
-                                    //     // cubit.changeFavoriteState();
-                                    //     // cubit.searchInFavorite(name!)
-                                    //     //     ? cubit.deleteFromDataBaseName(name!)
-                                    //     //     : cubit.insertIntoDataBase(
-                                    //     //     name: name!, url: url!);
-                                    //     //
-                                    //     // print(index);
-                                    //     // print(url);
-                                    //   },
-                                    //   child: Icon(
-                                    // //    cubit.searchInFavorite(name!)
-                                    //     //  cubit.favorite[index!]['isFavorite'] == 'true'
-                                    //         ? Icons.favorite
-                                    //         : cubit.favoriteIsclicked
-                                    //         ? Icons.favorite
-                                    //         : Icons.favorite_outline,
-                                    //     color: Colors.teal,
-                                    //   ),
-                                    // ),
                                   ],
                                 ),
                               ),

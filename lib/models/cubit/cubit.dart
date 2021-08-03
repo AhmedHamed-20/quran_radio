@@ -1,18 +1,17 @@
-import 'dart:io';
-
 import 'package:assets_audio_player/assets_audio_player.dart';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:quran_radio/models/states/states.dart';
 import 'package:quran_radio/screens/current_playing_screen.dart';
 import 'package:quran_radio/screens/favourite_screen.dart';
 import 'package:quran_radio/screens/home_screen.dart';
-import 'package:quran_radio/screens/layout_screen.dart';
+
 import 'package:quran_radio/screens/search_screen.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -75,10 +74,10 @@ class Appcubit extends Cubit<AppState> {
   searchName(String name) {
     for (int i = 0; i <= radio['radios'].length; i++) {
       try {
-        if (name == radio['radios'][i]['name']) {
+        if (radio['radios'][i]['name'].toString().contains(name)) {
           search = [
             {
-              'name': name,
+              'name': radio['radios'][i]['name'],
               'url': radio['radios'][i]['radio_url'],
             }
           ];
@@ -189,8 +188,7 @@ class Appcubit extends Cubit<AppState> {
   Map<String, dynamic> radio = {};
   List<dynamic> data = [];
   List<bool> audioSelectedList = [false];
-  List<bool> audioSelectedList2 = [false];
-  List<bool> audioSelectedList3 = [false];
+
   selected(int index) {
 // set only one bool to be true
     emit(IsSelected());
@@ -198,24 +196,6 @@ class Appcubit extends Cubit<AppState> {
         List.generate(radio['radios'].length, (i) => false); // set all to false
     audioSelectedList[index] = true;
     print(radio['radios'].length);
-  }
-
-  selected2(int index, int length) {
-// set only one bool to be true
-    emit(IsSelected());
-    audioSelectedList2 =
-        List.generate(length, (i) => false); // set all to false
-    audioSelectedList2[index] = true;
-    print(length);
-  }
-
-  selected3(int index, int length) {
-// set only one bool to be true
-    emit(IsSelected());
-    audioSelectedList3 =
-        List.generate(length, (i) => false); // set all to false
-    audioSelectedList3[index] = true;
-    print(length);
   }
 
   insertIntoDataBase({
@@ -307,17 +287,14 @@ class Appcubit extends Cubit<AppState> {
           print(error);
         },
       );
-    }
-
-    // I am connected to a wifi network.
-    else {
+    } else {
       NoInternet = true;
     }
   }
 
   bool isplay = false;
   AssetsAudioPlayer audioStreamPlayer = AssetsAudioPlayer();
-  // AssetsAudioPlayerCache cache;
+
   Future playaudio(String url, String name, BuildContext context) async {
     bool result = await InternetConnectionChecker().hasConnection;
     if (result == true) {
@@ -340,12 +317,25 @@ class Appcubit extends Cubit<AppState> {
         if (response.statusCode == 200) {
           pauseaudio();
           print('success');
+
           await audioStreamPlayer
               .open(
             Audio.liveStream(url),
             showNotification: true,
+            notificationSettings: NotificationSettings(
+              nextEnabled: false,
+              prevEnabled: false,
+            ),
           )
-              .then((value) {
+              .then((value) async {
+            await audioStreamPlayer.updateCurrentAudioNotification(
+              metas: Metas(
+                title: 'Quran Radio',
+                artist: name,
+                image: MetasImage.network(
+                    'https://static5.depositphotos.com/1031888/412/v/600/depositphotos_4122008-stock-illustration-vintage-radio.jpg'),
+              ),
+            );
             isplay = true;
             PlayError = false;
             changeCurrentplay(name, url);
@@ -374,27 +364,7 @@ class Appcubit extends Cubit<AppState> {
     } else {
       NoInternet = true;
     }
-
-    // try {
-    //
-    // } catch (error) {
-    //   audioStreamPlayer.onErrorDo = (handler) {
-    //     handler.player.stop();
-    //   };
-    //   //   stopaudio();
-    //   //    audioStreamPlayer.dispose();
-    //   print(error);
-    // }
   }
-
-  bool isClicked = false;
-  List<bool> items = [];
-  // changeclick() {
-  //   isClicked = !isClicked;
-  //   print(radio['radios'].length);
-  //   print(items);
-  //   emit(IsSelected());
-  // }
 
   pauseaudio() async {
     await audioStreamPlayer.pause().then((value) {

@@ -1,9 +1,10 @@
-import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quran_radio/models/states/states.dart';
 import 'package:quran_radio/screens/layout_screen.dart';
+import 'package:splash_screen_view/SplashScreenView.dart';
 
 import 'models/cubit/cubit.dart';
 
@@ -23,18 +24,22 @@ class MyApp extends StatelessWidget {
         listener: (context, state) {},
         builder: (context, state) {
           return MaterialApp(
-            title: 'Flutter Demo',
+            title: 'Quran Radio',
             theme: ThemeData(
               primaryColor: Colors.teal[300],
             ),
-            home: AnimatedSplashScreen(
-              splashIconSize: 200,
+            home: SplashScreenView(
+              imageSrc: 'assets/images/splash.gif',
+              imageSize: 200,
+              duration: 6000,
+              speed: 5,
+
+              pageRouteTransition: PageRouteTransition.CupertinoPageRoute,
               backgroundColor: Color(0xffF4CE57),
-              splash: Image.asset(
-                'assets/images/splash.gif',
-              ),
-              nextScreen: LayoutScreen(),
-              splashTransition: SplashTransition.fadeTransition,
+              //speed: 3,
+              navigateRoute: LayoutScreen(),
+
+              //    pageTransitionType: ,
             ),
           );
         },
