@@ -45,6 +45,7 @@ class Appcubit extends Cubit<AppState> {
   Database? database;
   void changBottomnav(int index) {
     currentindex = index;
+
     emit(ChangebottomState());
   }
 
@@ -87,7 +88,6 @@ class Appcubit extends Cubit<AppState> {
           break;
         }
       } catch (error) {
-        print(error);
         Notfound = true;
         emit(NotFonundSearch());
       }
@@ -113,7 +113,7 @@ class Appcubit extends Cubit<AppState> {
         getdataFromDataBase(createdDataBase).then((value) {
           favorite = value;
           database = createdDataBase;
-          print(favorite);
+
           emit(AppGetDataBase());
         });
         print('database opened');
@@ -150,7 +150,6 @@ class Appcubit extends Cubit<AppState> {
         );
       });
       emit(AppDeleteFromDataBase());
-      print('deleted');
     }).catchError((onError) {
       print(onError);
     });
@@ -179,10 +178,7 @@ class Appcubit extends Cubit<AppState> {
         ),
       );
       emit(AppDeleteFromDataBase());
-      print('deleted');
-    }).catchError((onError) {
-      print(onError);
-    });
+    }).catchError((onError) {});
   }
 
   Map<String, dynamic> radio = {};
@@ -195,7 +191,6 @@ class Appcubit extends Cubit<AppState> {
     audioSelectedList =
         List.generate(radio['radios'].length, (i) => false); // set all to false
     audioSelectedList[index] = true;
-    print(radio['radios'].length);
   }
 
   insertIntoDataBase({
@@ -231,9 +226,7 @@ class Appcubit extends Cubit<AppState> {
             favoriteIsclicked = false;
           });
         },
-      ).catchError((error) {
-        print('error');
-      });
+      ).catchError((error) {});
     });
   }
 
@@ -258,9 +251,7 @@ class Appcubit extends Cubit<AppState> {
         context,
         MaterialPageRoute(builder: (context) => Screen),
       );
-    } else {
-      print('No Internet');
-    }
+    } else {}
   }
 
   Future getdata() async {
@@ -279,8 +270,6 @@ class Appcubit extends Cubit<AppState> {
           //  data = value.data;
           createData();
           emit(SuccesState());
-
-          print(radio);
         },
       ).onError(
         (error, stackTrace) {
@@ -316,7 +305,6 @@ class Appcubit extends Cubit<AppState> {
         var response = await Dio().head(url);
         if (response.statusCode == 200) {
           pauseaudio();
-          print('success');
 
           await audioStreamPlayer
               .open(
@@ -358,8 +346,6 @@ class Appcubit extends Cubit<AppState> {
             backgroundColor: Colors.red,
           ),
         );
-
-        print(error);
       }
     } else {
       NoInternet = true;
@@ -373,7 +359,6 @@ class Appcubit extends Cubit<AppState> {
       changeCurrentplay('nothing', 'nothing');
     }).catchError((onError) {
       emit(IsError());
-      print(onError);
     });
   }
 

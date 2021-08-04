@@ -16,8 +16,13 @@ class LayoutScreen extends StatelessWidget {
       builder: (context, state) {
         return WillPopScope(
           onWillPop: () async {
-            await MoveToBackground.moveTaskToBack();
-            return false;
+            if (cubit.currentindex == 0) {
+              await MoveToBackground.moveTaskToBack();
+              return false;
+            } else {
+              cubit.changBottomnav(0);
+              return false;
+            }
           },
           child: Scaffold(
             backgroundColor: Colors.white,
