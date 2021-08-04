@@ -301,6 +301,7 @@ class Appcubit extends Cubit<AppState> {
           duration: Duration(seconds: 2),
         ),
       );
+
       try {
         var response = await Dio().head(url);
         if (response.statusCode == 200) {
@@ -308,22 +309,24 @@ class Appcubit extends Cubit<AppState> {
 
           await audioStreamPlayer
               .open(
-            Audio.liveStream(url),
-            showNotification: true,
-            notificationSettings: NotificationSettings(
-              nextEnabled: false,
-              prevEnabled: false,
-            ),
-          )
-              .then((value) async {
-            await audioStreamPlayer.updateCurrentAudioNotification(
+            Audio.liveStream(
+              url,
               metas: Metas(
                 title: 'Quran Radio',
                 artist: name,
                 image: MetasImage.network(
                     'https://static5.depositphotos.com/1031888/412/v/600/depositphotos_4122008-stock-illustration-vintage-radio.jpg'),
               ),
-            );
+            ),
+            showNotification: true,
+            playInBackground: PlayInBackground.enabled,
+            notificationSettings: NotificationSettings(
+              nextEnabled: false,
+              prevEnabled: false,
+            ),
+          )
+              .then((value) async {
+            print(audioStreamPlayer.isPlaying.value);
             isplay = true;
             PlayError = false;
             changeCurrentplay(name, url);
@@ -332,6 +335,7 @@ class Appcubit extends Cubit<AppState> {
         }
       } catch (error) {
         PlayError = true;
+        print(error);
         emit(PlayErrorState());
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -353,7 +357,14 @@ class Appcubit extends Cubit<AppState> {
   }
 
   pauseaudio() async {
-    await audioStreamPlayer.pause().then((value) {
+    await audioStreamPlayer.pause().then((value) async {
+      await audioStreamPlayer.updateCurrentAudioNotification(
+        metas: Metas(
+          title: 'Quran Radio',
+          image: MetasImage.network(
+              'https://static5.depositphotos.com/1031888/412/v/600/depositphotos_4122008-stock-illustration-vintage-radio.jpg'),
+        ),
+      );
       emit(IsPause());
       isplay = false;
       changeCurrentplay('nothing', 'nothing');

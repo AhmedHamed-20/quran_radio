@@ -162,8 +162,11 @@ class HomeScreen extends StatelessWidget {
                                           radius: 25,
                                           child: Icon(
                                             (cubit.radio['radios'][index]
-                                                        ['name'] ==
-                                                    cubit.currentplayingname)
+                                                            ['name'] ==
+                                                        cubit
+                                                            .currentplayingname &&
+                                                    cubit.audioStreamPlayer
+                                                        .isPlaying.value)
                                                 ? Icons.pause
                                                 : Icons.play_arrow,
                                             color: Colors.teal[300],
