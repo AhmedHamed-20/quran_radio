@@ -14,11 +14,11 @@ Widget stations(
   return Card(
     margin: EdgeInsets.all(8),
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-    color: Colors.teal[50],
+    color:cubit.isDark?Colors.teal.withOpacity(0.2): Colors.teal[50],
     elevation: 0,
     child: ListTile(
       contentPadding: EdgeInsets.all(8),
-      title: Text(name!),
+      title: Text(name!,style: TextStyle(color:  cubit.isDark?Colors.white:Colors.black),),
       leading: Container(
         width: 50,
         height: 50,

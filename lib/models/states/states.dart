@@ -30,6 +30,10 @@ class SearchScreen extends AppState {}
 
 class NotFonundSearch extends AppState {}
 
+class ChangeTheme extends AppState {}
+
+
+
 class AppDeleteFromDataBase extends AppState {}
 
 class PlayErrorState extends AppState {}

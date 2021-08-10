@@ -7,6 +7,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:quran_radio/models/darkmodecach.dart';
 import 'package:quran_radio/models/states/states.dart';
 import 'package:quran_radio/screens/current_playing_screen.dart';
 import 'package:quran_radio/screens/favourite_screen.dart';
@@ -26,6 +27,20 @@ class Appcubit extends Cubit<AppState> {
     SearchSreen(),
     FavouriteScreen(),
   ];
+
+  bool isDark=false;
+
+
+  void toggleDarkTheme({bool? valueFromCach}) {
+    if (valueFromCach != null) {
+      isDark = valueFromCach;
+      emit(ChangeTheme());
+    } else {
+      isDark = !isDark;
+      SaveToCach.putDate(key: 'isDark', isDark: isDark).then((value) {});
+      emit(ChangeTheme());
+    }
+  }
 
   List<String> title = [
     'Home',
@@ -254,7 +269,8 @@ class Appcubit extends Cubit<AppState> {
     } else {}
   }
 
-  Future getdata() async {
+  Future getdata({valueFromCach}) async {
+    toggleDarkTheme(valueFromCach: valueFromCach);
     emit(LoadingState());
     NoInternet = false;
 

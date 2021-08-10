@@ -33,7 +33,7 @@ class CurrentPlaying extends StatelessWidget {
                 ),
               )
             : Scaffold(
-                backgroundColor: Colors.white,
+                backgroundColor:  cubit.isDark?Color(0xff22252b):Colors.white,
                 body: Center(
                   child: cubit.currentplayingname == 'nothing'
                       ? Center(

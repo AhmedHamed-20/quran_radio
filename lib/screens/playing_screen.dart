@@ -18,6 +18,7 @@ class PlayingScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
+          backgroundColor:  cubit.isDark?Color(0xff22252b):Colors.white,
           appBar: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0,

@@ -40,7 +40,7 @@ class FavouriteScreen extends StatelessWidget {
           );
         } else {
           return Scaffold(
-            backgroundColor: Colors.white,
+            backgroundColor:  cubit.isDark?Color(0xff22252b):Colors.white,
             body: cubit.favorite.length == 0
                 ? Center(
                     child: Column(
@@ -83,13 +83,13 @@ class FavouriteScreen extends StatelessWidget {
                             },
                             child: CircleAvatar(
                               radius: 30,
-                              backgroundColor: Colors.teal[200],
+                              backgroundColor:cubit.isDark?Colors.teal.withOpacity(0.4): Colors.teal[100],
                               child: Icon(
                                 (cubit.favorite[index]['name'] ==
                                         cubit.currentplayingname)
                                     ? Icons.pause
                                     : Icons.play_arrow,
-                                color: Colors.teal,
+                                color:  Colors.teal[300],
                                 size: 30,
                               ),
                             ),

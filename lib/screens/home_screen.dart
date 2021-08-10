@@ -47,6 +47,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                   )
                 : Scaffold(
+                  backgroundColor:  cubit.isDark?Color(0xff22252b):Colors.white,
                     body: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -55,7 +56,7 @@ class HomeScreen extends StatelessWidget {
                           child: Text(
                             'Popular Station',
                             style: TextStyle(
-                              color: Colors.black,
+                              color:  cubit.isDark?Colors.white:Colors.black,
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
@@ -112,7 +113,7 @@ class HomeScreen extends StatelessWidget {
                           child: Text(
                             'All Stations',
                             style: TextStyle(
-                              color: Colors.black,
+                              color:  cubit.isDark?Colors.white:Colors.black,
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
@@ -129,10 +130,11 @@ class HomeScreen extends StatelessWidget {
                               ),
                               itemBuilder: (BuildContext context, int index) {
                                 return Card(
+                                  
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(15),
                                   ),
-                                  color: Colors.teal[50],
+                                  color:Colors.transparent,
                                   elevation: 0,
                                   child: InkWell(
                                     child: stations(
@@ -158,7 +160,7 @@ class HomeScreen extends StatelessWidget {
                                         },
                                         child: CircleAvatar(
                                           key: Key(index.toString()),
-                                          backgroundColor: Colors.teal[100],
+                                          backgroundColor:cubit.isDark?Colors.teal.withOpacity(0.4) :Colors.teal[100],
                                           radius: 25,
                                           child: Icon(
                                             (cubit.radio['radios'][index]

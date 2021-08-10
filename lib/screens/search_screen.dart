@@ -37,31 +37,40 @@ class SearchSreen extends StatelessWidget {
                   ),
                 )
               : Scaffold(
+                backgroundColor: cubit.isDark?Color(0xff22252b):Colors.white,
                   body: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Column(
                       children: [
                         Expanded(
                           flex: 1,
-                          child: TextField(
-                            textDirection: TextDirection.rtl,
-                            controller: controller,
-                            keyboardType: TextInputType.text,
-                            onChanged: (value) {
-                              searchvalue = value;
-                              cubit.searchName(
-                                value.trim(),
-                              );
-                            },
-                            onSubmitted: (val) {
-                              cubit.searchName(
-                                val.trim(),
-                              );
-                            },
-                            decoration: InputDecoration(
-                              labelText: 'Search',
-                              prefixIcon: Icon(Icons.search),
-                              border: OutlineInputBorder(),
+                          child: Theme(
+                            data: ThemeData(primaryColor: cubit.isDark?Colors.white:Colors.black),
+                            child: TextField(
+                              style: TextStyle(color: cubit.isDark?Colors.white:Colors.black,),
+                              textDirection: TextDirection.rtl,
+                              cursorColor: cubit.isDark?Colors.white:Colors.black,
+                              controller: controller,
+                              keyboardType: TextInputType.text,
+                              onChanged: (value) {
+                                searchvalue = value;
+                                cubit.searchName(
+                                  value.trim(),
+                                );
+                              },
+                              onSubmitted: (val) {
+                                cubit.searchName(
+                                  val.trim(),
+                                );
+                              },
+                              decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: cubit.isDark?Colors.teal:Colors.black,),),
+                                labelText: 'Search',
+                                labelStyle: TextStyle(color: cubit.isDark?Colors.white:Colors.black),
+                                prefixIcon: Icon(Icons.search,color:  cubit.isDark?Colors.white:Colors.black,),
+                                border: OutlineInputBorder(borderSide: BorderSide(color: cubit.isDark?Colors.white:Colors.black,)),
+                          disabledBorder:  OutlineInputBorder(borderSide: BorderSide(color: cubit.isDark?Colors.white:Colors.black,),),
+                              ),
                             ),
                           ),
                         ),
@@ -73,11 +82,12 @@ class SearchSreen extends StatelessWidget {
                                     'Start Search Now',
                                     style: TextStyle(
                                       fontSize: 18,
+                                      color: cubit.isDark?Colors.white:Colors.black,
                                     ),
                                   ),
                                 )
                               : cubit.Notfound
-                                  ? Text('Not Found')
+                                  ? Text('Not Found',style: TextStyle(color: cubit.isDark?Colors.white:Colors.black,),)
                                   : ListView.builder(
                                       itemBuilder: (context, index) {
                                         return InkWell(

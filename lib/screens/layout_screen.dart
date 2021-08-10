@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:ionicons/ionicons.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quran_radio/models/cubit/cubit.dart';
 
@@ -25,16 +25,18 @@ class LayoutScreen extends StatelessWidget {
             }
           },
           child: Scaffold(
-            backgroundColor: Colors.white,
+            backgroundColor: cubit.isDark?Color(0xff22252b):Colors.white,
             bottomNavigationBar: BottomNavigationBar(
+              backgroundColor: cubit.isDark?Color(0xff22252b):Colors.white,
               selectedItemColor: Colors.teal,
-              unselectedItemColor: Colors.grey,
+              unselectedItemColor:cubit.isDark? Colors.white:Colors.grey,
               onTap: (index) {
                 cubit.changBottomnav(index);
               },
               currentIndex: cubit.currentindex,
               items: [
                 BottomNavigationBarItem(
+                  backgroundColor:  cubit.isDark?Color(0xff22252b):Colors.white,
                   icon: Icon(Icons.home_filled),
                   label: 'Home',
                 ),
@@ -55,7 +57,10 @@ class LayoutScreen extends StatelessWidget {
             appBar: AppBar(
               centerTitle: true,
               backgroundColor: Colors.transparent,
-              title: Text('${cubit.title[cubit.currentindex]}'),
+              title: Text('${cubit.title[cubit.currentindex]}',style: TextStyle(color: cubit.isDark?Colors.white:Colors.black,),),
+              actions: [IconButton(icon: Icon(cubit.isDark? Ionicons.moon_sharp:Ionicons.moon_outline,color:cubit.isDark? Colors.white:Colors.black,), onPressed: (){
+                cubit.toggleDarkTheme();
+              },),],
               elevation: 0,
             ),
             body: cubit.screen[cubit.currentindex],

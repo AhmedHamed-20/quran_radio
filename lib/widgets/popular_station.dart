@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:quran_radio/models/cubit/cubit.dart';
 
 Widget popularStation({BuildContext? context, String? name, String? url}) {
+   var cubit = Appcubit.get(context);
   return Column(
     children: [
       CircleAvatar(
-        backgroundColor: Colors.teal.withOpacity(0.1),
+        backgroundColor:cubit.isDark? Colors.teal.withOpacity(0.2):Colors.teal.withOpacity(0.1),
         child: ClipOval(
           child: Image.asset(
             'assets/images/person.png',
@@ -20,7 +22,7 @@ Widget popularStation({BuildContext? context, String? name, String? url}) {
       ),
       Text(
         name!,
-        style: TextStyle(color: Colors.black),
+        style: TextStyle(color:  cubit.isDark?Colors.white:Colors.black),
       ),
     ],
   );
