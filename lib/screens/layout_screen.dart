@@ -41,14 +41,17 @@ class LayoutScreen extends StatelessWidget {
                   label: 'Home',
                 ),
                 BottomNavigationBarItem(
+                       backgroundColor:  cubit.isDark?Color(0xff22252b):Colors.white,
                   icon: Icon(Icons.headset_rounded),
                   label: 'Current Playing',
                 ),
                 BottomNavigationBarItem(
+                       backgroundColor:  cubit.isDark?Color(0xff22252b):Colors.white,
                   icon: Icon(Icons.search),
                   label: 'Search',
                 ),
                 BottomNavigationBarItem(
+                       backgroundColor:  cubit.isDark?Color(0xff22252b):Colors.white,
                   icon: Icon(Icons.favorite_outlined),
                   label: 'Favorite',
                 ),

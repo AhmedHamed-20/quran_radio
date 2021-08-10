@@ -22,7 +22,7 @@ class PlayingScreen extends StatelessWidget {
           appBar: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0,
-            title: Text('Will Play '),
+            title: Text('Will Play ',style: TextStyle(color: cubit.isDark?Colors.white:Colors.black,),),
             centerTitle: true,
           ),
           body: Column(
@@ -36,6 +36,7 @@ class PlayingScreen extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 25,
+                      color:  cubit.isDark?Colors.white:Colors.black,
                     ),
                   )),
                 ),
@@ -43,7 +44,7 @@ class PlayingScreen extends StatelessWidget {
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.teal[100],
+                    color:cubit.isDark?Colors.teal.withOpacity(0.4): Colors.teal[100],
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(25),
                       topRight: Radius.circular(25),
@@ -67,12 +68,12 @@ class PlayingScreen extends StatelessWidget {
                             },
                             child: CircleAvatar(
                               radius: 40,
-                              backgroundColor: Colors.teal[200],
+                              backgroundColor: cubit.isDark?Colors.teal.withOpacity(0.4): Colors.teal[100],
                               child: Icon(
                                 (name == cubit.currentplayingname)
                                     ? Icons.pause
                                     : Icons.play_arrow,
-                                color: Colors.teal,
+                                color: Colors.teal[300],
                                 size: 40,
                               ),
                             ),

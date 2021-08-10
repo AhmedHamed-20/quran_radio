@@ -45,6 +45,7 @@ class CurrentPlaying extends StatelessWidget {
                                 'No playing media Running',
                                 style: TextStyle(
                                   fontSize: 18,
+                                  color: cubit.isDark?Colors.white:Colors.black,
                                 ),
                               ),
                             ],
@@ -61,6 +62,7 @@ class CurrentPlaying extends StatelessWidget {
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 25,
+                                    color: cubit.isDark?Colors.white:Colors.black,
                                   ),
                                 )),
                               ),
@@ -68,7 +70,7 @@ class CurrentPlaying extends StatelessWidget {
                             Expanded(
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: Colors.teal[100],
+                                  color:cubit.isDark? Colors.teal.withOpacity(0.4):Colors.teal[100],
                                   borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(25),
                                     topRight: Radius.circular(25),
@@ -93,13 +95,13 @@ class CurrentPlaying extends StatelessWidget {
                                           },
                                           child: CircleAvatar(
                                             radius: 40,
-                                            backgroundColor: Colors.teal[200],
+                                            backgroundColor: cubit.isDark?Colors.teal.withOpacity(0.4): Colors.teal[100],
                                             child: Icon(
                                               (cubit.currentplayingname ==
                                                       'nothing')
                                                   ? Icons.play_arrow
                                                   : Icons.pause,
-                                              color: Colors.teal,
+                                              color: Colors.teal[300],
                                               size: 40,
                                             ),
                                           ),
