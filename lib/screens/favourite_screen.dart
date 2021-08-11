@@ -46,11 +46,12 @@ class FavouriteScreen extends StatelessWidget {
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Image.asset('assets/images/empty.png'),
+                          Image.asset('assets/images/notFound.png'),
                           Text(
-                            'No Favorite',
+                            'No Favorites',
                             style: TextStyle(
                               fontSize: 18,
+                              color: cubit.isDark?Colors.white:Colors.black,
                             ),
                           ),
                         ]),

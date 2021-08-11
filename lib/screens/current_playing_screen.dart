@@ -40,7 +40,7 @@ class CurrentPlaying extends StatelessWidget {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Image.asset('assets/images/empty.png'),
+                              Image.asset('assets/images/notFound.png'),
                               Text(
                                 'No playing media Running',
                                 style: TextStyle(
@@ -70,7 +70,7 @@ class CurrentPlaying extends StatelessWidget {
                             Expanded(
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color:cubit.isDark? Colors.teal.withOpacity(0.4):Colors.teal[100],
+                                  color:cubit.isDark? Colors.teal.withOpacity(0.4):Colors.teal[50],
                                   borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(25),
                                     topRight: Radius.circular(25),
@@ -111,6 +111,26 @@ class CurrentPlaying extends StatelessWidget {
                                     SizedBox(
                                       height: 20,
                                     ),
+                                      InkWell(
+                        onTap: () {
+                          cubit.changeFavoriteState();
+                          cubit.searchInFavorite(cubit.currentplayingname)
+                              ? cubit.deleteFromDataBaseName(cubit.currentplayingname, context)
+                              : cubit.insertIntoDataBase(
+                                  name: cubit.currentplayingname, url: cubit.currentplayingurl, context: context);
+
+                         
+                        },
+                        child: Icon(
+                          cubit.searchInFavorite(cubit.currentplayingname)
+                              //  cubit.favorite[index!]['isFavorite'] == 'true'
+                              ? Icons.favorite
+                              : cubit.favoriteIsclicked
+                                  ? Icons.favorite
+                                  : Icons.favorite_outline,
+                          color: Colors.teal[300],
+                        ),
+                      ),
                                   ],
                                 ),
                               ),

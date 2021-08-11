@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quran_radio/models/cubit/cubit.dart';
@@ -65,6 +66,8 @@ class LayoutScreen extends StatelessWidget {
                 cubit.toggleDarkTheme();
               },),],
               elevation: 0,
+              backwardsCompatibility: false,
+              systemOverlayStyle: SystemUiOverlayStyle(statusBarIconBrightness: Brightness.light,),
             ),
             body: cubit.screen[cubit.currentindex],
           ),

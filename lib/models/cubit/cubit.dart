@@ -46,7 +46,7 @@ class Appcubit extends Cubit<AppState> {
     'Home',
     'Playing Now',
     'Search',
-    'Favorite',
+    'Favorites',
   ];
 
   String currentplayingname = 'nothing';

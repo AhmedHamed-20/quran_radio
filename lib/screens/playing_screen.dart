@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quran_radio/models/cubit/cubit.dart';
 import 'package:quran_radio/models/states/states.dart';
@@ -20,6 +21,9 @@ class PlayingScreen extends StatelessWidget {
         return Scaffold(
           backgroundColor:  cubit.isDark?Color(0xff22252b):Colors.white,
           appBar: AppBar(
+            backwardsCompatibility: false,
+            systemOverlayStyle: SystemUiOverlayStyle(systemNavigationBarIconBrightness: Brightness.light,),
+            iconTheme: IconThemeData(color: cubit.isDark?Colors.white:Colors.black,),
             backgroundColor: Colors.transparent,
             elevation: 0,
             title: Text('Will Play ',style: TextStyle(color: cubit.isDark?Colors.white:Colors.black,),),
@@ -44,7 +48,7 @@ class PlayingScreen extends StatelessWidget {
               Expanded(
                 child: Container(
                   decoration: BoxDecoration(
-                    color:cubit.isDark?Colors.teal.withOpacity(0.4): Colors.teal[100],
+                    color:cubit.isDark?Colors.teal.withOpacity(0.4): Colors.teal[50],
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(25),
                       topRight: Radius.circular(25),
@@ -101,7 +105,7 @@ class PlayingScreen extends StatelessWidget {
                               : cubit.favoriteIsclicked
                                   ? Icons.favorite
                                   : Icons.favorite_outline,
-                          color: Colors.teal,
+                          color: Colors.teal[300],
                         ),
                       ),
                     ],
