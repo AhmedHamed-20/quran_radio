@@ -4,7 +4,7 @@ Listen to quran with more than 100 live channels
 
 ## Getting Started
 
-<img src="https://user-images.githubusercontent.com/72945669/129239354-db840d0f-232e-4c92-ab70-d223cd39a218.png" width="720" height="1024">
+<img src="https://user-images.githubusercontent.com/72945669/129239354-db840d0f-232e-4c92-ab70-d223cd39a218.png" width="150" height="280">
 ![Screenshot_1628788358](https://user-images.githubusercontent.com/72945669/129239537-63a24fd9-e30c-4ad3-a590-3068a8acf2fb.png)
 ![Screenshot_1628788378](https://user-images.githubusercontent.com/72945669/129239540-8a1362df-2188-4deb-915c-1ac4a6a37df9.png)
 ![Screenshot_1628788387](https://user-images.githubusercontent.com/72945669/129239544-46ffc278-bbc6-4fa3-bd4d-ed9c53378696.png)
