@@ -28,8 +28,7 @@ class Appcubit extends Cubit<AppState> {
     FavouriteScreen(),
   ];
 
-  bool isDark=false;
-
+  bool isDark = false;
 
   void toggleDarkTheme({bool? valueFromCach}) {
     if (valueFromCach != null) {
@@ -270,7 +269,6 @@ class Appcubit extends Cubit<AppState> {
   }
 
   Future getdata({valueFromCach}) async {
-    toggleDarkTheme(valueFromCach: valueFromCach);
     emit(LoadingState());
     NoInternet = false;
 
@@ -283,7 +281,6 @@ class Appcubit extends Cubit<AppState> {
         (value) {
           radio = Map<String, dynamic>.from(value.data);
           data = radio['radios'];
-          //  data = value.data;
           createData();
           emit(SuccesState());
         },

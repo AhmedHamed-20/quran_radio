@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quran_radio/models/cubit/cubit.dart';
 import 'package:quran_radio/models/states/states.dart';
-import 'package:quran_radio/screens/layout_screen.dart';
 import 'package:quran_radio/widgets/stations.dart';
 
 class FavouriteScreen extends StatelessWidget {
@@ -40,7 +39,7 @@ class FavouriteScreen extends StatelessWidget {
           );
         } else {
           return Scaffold(
-            backgroundColor:  cubit.isDark?Color(0xff22252b):Colors.white,
+            backgroundColor: cubit.isDark ? Color(0xff22252b) : Colors.white,
             body: cubit.favorite.length == 0
                 ? Center(
                     child: Column(
@@ -51,7 +50,7 @@ class FavouriteScreen extends StatelessWidget {
                             'No Favorites',
                             style: TextStyle(
                               fontSize: 18,
-                              color: cubit.isDark?Colors.white:Colors.black,
+                              color: cubit.isDark ? Colors.white : Colors.black,
                             ),
                           ),
                         ]),
@@ -84,13 +83,15 @@ class FavouriteScreen extends StatelessWidget {
                             },
                             child: CircleAvatar(
                               radius: 30,
-                              backgroundColor:cubit.isDark?Colors.teal.withOpacity(0.4): Colors.teal[100],
+                              backgroundColor: cubit.isDark
+                                  ? Colors.teal.withOpacity(0.4)
+                                  : Colors.teal[100],
                               child: Icon(
                                 (cubit.favorite[index]['name'] ==
                                         cubit.currentplayingname)
                                     ? Icons.pause
                                     : Icons.play_arrow,
-                                color:  Colors.teal[300],
+                                color: Colors.teal[300],
                                 size: 30,
                               ),
                             ),

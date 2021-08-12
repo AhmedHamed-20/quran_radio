@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quran_radio/models/cubit/cubit.dart';
-import 'package:quran_radio/models/popular_list.dart';
 import 'package:quran_radio/models/states/states.dart';
-import 'package:quran_radio/screens/playing_screen.dart';
-import 'package:quran_radio/widgets/all_station_widget.dart';
-import 'package:quran_radio/widgets/bottom_sheet.dart';
-import 'package:quran_radio/widgets/popular_station.dart';
-import 'package:quran_radio/widgets/popular_station_screen_widget.dart';
-import 'package:quran_radio/widgets/snack_bar.dart';
-import 'package:quran_radio/widgets/stations.dart';
+import 'package:quran_radio/components/all_station_widget.dart';
+import 'package:quran_radio/components/popular_station_screen_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
