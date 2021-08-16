@@ -7,7 +7,7 @@ import 'package:quran_radio/widgets/popular_station.dart';
 Widget popularStationWidget(BuildContext context) {
   var cubit = Appcubit.get(context);
   return Expanded(
-    flex: 2,
+    flex: 3,
     child: ListView.builder(
         physics: BouncingScrollPhysics(),
         padding: EdgeInsets.all(8),
@@ -36,13 +36,14 @@ Widget popularStationWidget(BuildContext context) {
                   //
 
                   cubit.Navigate(
-                      PlayingScreen(
-                        index: index,
-                        name: popular[index],
-                        url: url,
-                        length: popular.length,
-                      ),
-                      context);
+                    PlayingScreen(
+                      index: index,
+                      name: popular[index],
+                      url: url,
+                      length: popular.length,
+                    ),
+                    context,
+                  );
                 }),
           );
         }),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:quran_radio/models/cubit/cubit.dart';
-import 'package:quran_radio/models/states/states.dart';
 import 'package:quran_radio/components/all_station_widget.dart';
 import 'package:quran_radio/components/popular_station_screen_widget.dart';
+import 'package:quran_radio/models/cubit/cubit.dart';
+import 'package:quran_radio/models/states/states.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);

@@ -2,23 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:quran_radio/models/cubit/cubit.dart';
 import 'package:quran_radio/models/states/states.dart';
 
-Widget stations(
-    {BuildContext? context,
-    String? name,
-    String? url,
-    AppState? state,
-    Icon? icon,
-    int? index,
-    Widget? button}) {
+Widget stations({
+  BuildContext? context,
+  String? name,
+  String? url,
+  AppState? state,
+  Icon? icon,
+  int? index,
+  Widget? button,
+  Color? backgroundColor,
+}) {
   var cubit = Appcubit.get(context);
   return Card(
     margin: EdgeInsets.all(8),
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-    color:cubit.isDark?Colors.teal.withOpacity(0.2): Colors.teal[50],
+    color: backgroundColor,
     elevation: 0,
     child: ListTile(
       contentPadding: EdgeInsets.all(8),
-      title: Text(name!,style: TextStyle(color:  cubit.isDark?Colors.white:Colors.black),),
+      title: Text(
+        name!,
+        style: TextStyle(color: cubit.isDark ? Colors.white : Colors.black),
+      ),
       leading: Container(
         width: 50,
         height: 50,

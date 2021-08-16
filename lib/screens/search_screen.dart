@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quran_radio/models/cubit/cubit.dart';
@@ -37,7 +38,8 @@ class SearchSreen extends StatelessWidget {
                   ),
                 )
               : Scaffold(
-                backgroundColor: cubit.isDark?Color(0xff22252b):Colors.white,
+                  backgroundColor:
+                      cubit.isDark ? Color(0xff22252b) : Colors.white,
                   body: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Column(
@@ -45,11 +47,17 @@ class SearchSreen extends StatelessWidget {
                         Expanded(
                           flex: 1,
                           child: Theme(
-                            data: ThemeData(primaryColor: cubit.isDark?Colors.white:Colors.black),
+                            data: ThemeData(
+                                primaryColor:
+                                    cubit.isDark ? Colors.white : Colors.black),
                             child: TextField(
-                              style: TextStyle(color: cubit.isDark?Colors.white:Colors.black,),
+                              style: TextStyle(
+                                color:
+                                    cubit.isDark ? Colors.white : Colors.black,
+                              ),
                               textDirection: TextDirection.rtl,
-                              cursorColor: cubit.isDark?Colors.white:Colors.black,
+                              cursorColor:
+                                  cubit.isDark ? Colors.white : Colors.black,
                               controller: controller,
                               keyboardType: TextInputType.text,
                               onChanged: (value) {
@@ -64,12 +72,37 @@ class SearchSreen extends StatelessWidget {
                                 );
                               },
                               decoration: InputDecoration(
-                                enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: cubit.isDark?Colors.teal:Colors.black,),),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: cubit.isDark
+                                        ? Colors.teal
+                                        : Colors.black,
+                                  ),
+                                ),
                                 labelText: 'Search',
-                                labelStyle: TextStyle(color: cubit.isDark?Colors.white:Colors.black),
-                                prefixIcon: Icon(Icons.search,color:  cubit.isDark?Colors.white:Colors.black,),
-                                border: OutlineInputBorder(borderSide: BorderSide(color: cubit.isDark?Colors.white:Colors.black,)),
-                          disabledBorder:  OutlineInputBorder(borderSide: BorderSide(color: cubit.isDark?Colors.white:Colors.black,),),
+                                labelStyle: TextStyle(
+                                    color: cubit.isDark
+                                        ? Colors.white
+                                        : Colors.black),
+                                prefixIcon: Icon(
+                                  Icons.search,
+                                  color: cubit.isDark
+                                      ? Colors.white
+                                      : Colors.black,
+                                ),
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                  color: cubit.isDark
+                                      ? Colors.white
+                                      : Colors.black,
+                                )),
+                                disabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: cubit.isDark
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
@@ -82,36 +115,62 @@ class SearchSreen extends StatelessWidget {
                                     'Start Search Now',
                                     style: TextStyle(
                                       fontSize: 18,
-                                      color: cubit.isDark?Colors.white:Colors.black,
+                                      color: cubit.isDark
+                                          ? Colors.white
+                                          : Colors.black,
                                     ),
                                   ),
                                 )
                               : cubit.Notfound
-                                  ? Text('Not Found',style: TextStyle(color: cubit.isDark?Colors.white:Colors.black,),)
+                                  ? Text(
+                                      'Not Found',
+                                      style: TextStyle(
+                                        color: cubit.isDark
+                                            ? Colors.white
+                                            : Colors.black,
+                                      ),
+                                    )
                                   : ListView.builder(
                                       itemBuilder: (context, index) {
-                                        return InkWell(
-                                          child: stations(
-                                            name: cubit.search[index]['name'],
-                                            context: context,
-                                            url: cubit.search[index]['url'],
-                                          ),
-                                          onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    PlayingScreen(
-                                                  index: index,
-                                                  name: cubit.search[index]
-                                                      ['name'],
-                                                  url: cubit.search[index]
-                                                      ['url'],
-                                                  length: cubit.search.length,
-                                                ),
+                                        return OpenContainer(
+                                          closedBuilder: (context, k) {
+                                            return InkWell(
+                                              onTap: k,
+                                              child: stations(
+                                                backgroundColor: cubit.isDark
+                                                    ? Colors.transparent
+                                                    : Colors.teal[50],
+                                                name: cubit.search[index]
+                                                    ['name'],
+                                                context: context,
+                                                url: cubit.search[index]['url'],
                                               ),
                                             );
                                           },
+                                          openBuilder: (context, k) {
+                                            return PlayingScreen(
+                                              index: index,
+                                              name: cubit.search[index]['name'],
+                                              url: cubit.search[index]['url'],
+                                              length: cubit.search.length,
+                                            );
+                                          },
+                                          closedElevation: 2,
+                                          closedColor: cubit.isDark
+                                              ? Colors.teal.withOpacity(0.2)
+                                              : Color(0xffe0f2f1),
+                                          openShape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                          ),
+                                          transitionType:
+                                              ContainerTransitionType.fade,
+                                          transitionDuration:
+                                              Duration(milliseconds: 400),
+                                          closedShape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                          ),
                                         );
                                       },
                                       itemCount: cubit.search.length,
