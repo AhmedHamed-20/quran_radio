@@ -67,6 +67,9 @@ class FavouriteScreen extends StatelessWidget {
                               cubit.favorite[index]['id'], context);
                         },
                         child: stations(
+                          backgroundColor: cubit.isDark
+                              ? Colors.teal.withOpacity(0.2)
+                              : Colors.teal[50],
                           url: cubit.favorite[index]['url'],
                           name: cubit.favorite[index]['name'],
                           context: context,

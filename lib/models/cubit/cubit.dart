@@ -1,18 +1,14 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
-
+import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:bloc/bloc.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:quran_radio/models/darkmodecach.dart';
 import 'package:quran_radio/models/states/states.dart';
 import 'package:quran_radio/screens/current_playing_screen.dart';
 import 'package:quran_radio/screens/favourite_screen.dart';
 import 'package:quran_radio/screens/home_screen.dart';
-
 import 'package:quran_radio/screens/search_screen.dart';
 import 'package:sqflite/sqflite.dart';
 
