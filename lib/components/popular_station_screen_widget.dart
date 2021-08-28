@@ -6,46 +6,43 @@ import 'package:quran_radio/widgets/popular_station.dart';
 
 Widget popularStationWidget(BuildContext context) {
   var cubit = Appcubit.get(context);
-  return Expanded(
-    flex: 3,
-    child: ListView.builder(
-        physics: BouncingScrollPhysics(),
-        padding: EdgeInsets.all(8),
-        scrollDirection: Axis.horizontal,
-        itemCount: popular.length,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: EdgeInsets.all(8),
-            child: InkWell(
-                child: popularStation(
-                  context: context,
-                  name: popular[index],
-                ),
-                onTap: () {
-                  cubit.noInternet();
-                  String? url;
-                  for (int i = 0; i <= cubit.radio['radios'].length; i++) {
-                    if (cubit.radio['radios'][i]['name'] == popular[index]) {
-                      url = cubit.radio['radios'][i]['radio_url'];
-                      break;
-                    } else {
-                      continue;
-                    }
+  return ListView.builder(
+      physics: BouncingScrollPhysics(),
+      padding: EdgeInsets.all(8),
+      scrollDirection: Axis.horizontal,
+      itemCount: popular.length,
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: EdgeInsets.all(8),
+          child: InkWell(
+              child: popularStation(
+                context: context,
+                name: popular[index],
+              ),
+              onTap: () {
+                cubit.noInternet();
+                String? url;
+                for (int i = 0; i <= cubit.radio['radios'].length; i++) {
+                  if (cubit.radio['radios'][i]['name'] == popular[index]) {
+                    url = cubit.radio['radios'][i]['radio_url'];
+                    break;
+                  } else {
+                    continue;
                   }
-                  print(url);
-                  //
+                }
+                print(url);
+                //
 
-                  cubit.Navigate(
-                    PlayingScreen(
-                      index: index,
-                      name: popular[index],
-                      url: url,
-                      length: popular.length,
-                    ),
-                    context,
-                  );
-                }),
-          );
-        }),
-  );
+                cubit.Navigate(
+                  PlayingScreen(
+                    index: index,
+                    name: popular[index],
+                    url: url,
+                    length: popular.length,
+                  ),
+                  context,
+                );
+              }),
+        );
+      });
 }

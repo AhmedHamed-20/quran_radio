@@ -45,35 +45,46 @@ class HomeScreen extends StatelessWidget {
                 : Scaffold(
                     backgroundColor:
                         cubit.isDark ? Color(0xff22252b) : Colors.white,
-                    body: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 15, bottom: 10),
-                          child: Text(
-                            'Popular Station',
-                            style: TextStyle(
-                              color: cubit.isDark ? Colors.white : Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                    body: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 15, bottom: 10),
+                            child: Text(
+                              'Popular Station',
+                              style: TextStyle(
+                                color:
+                                    cubit.isDark ? Colors.white : Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                        ),
-                        popularStationWidget(context),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 15, bottom: 10),
-                          child: Text(
-                            'All Stations',
-                            style: TextStyle(
-                              color: cubit.isDark ? Colors.white : Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                          Container(
+                              height: MediaQuery.of(context).size.height * 0.3,
+                              child: popularStationWidget(context)),
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(left: 15, bottom: 10),
+                            child: Text(
+                              'All Stations',
+                              style: TextStyle(
+                                color:
+                                    cubit.isDark ? Colors.white : Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                        ),
-                        allStationWidget(context, state),
-                      ],
+                          Container(
+                              width: MediaQuery.of(context).size.width,
+                              //  height: MediaQuery.of(context).size.height * 0.4,
+                              child: allStationWidget(context, state)),
+                        ],
+                      ),
                     ),
                   );
       },
