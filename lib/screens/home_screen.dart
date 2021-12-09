@@ -11,6 +11,8 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var cubit = Appcubit.get(context);
+    final _controller = ScrollController();
+
     return BlocConsumer<Appcubit, AppState>(
       listener: (context, state) {},
       builder: (context, state) {
@@ -43,12 +45,38 @@ class HomeScreen extends StatelessWidget {
                     ),
                   )
                 : Scaffold(
+                    floatingActionButtonLocation:
+                        FloatingActionButtonLocation.centerDocked,
+                    floatingActionButton: MaterialButton(
+                      color: cubit.isDark ? Color(0xff22252b) : Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Icon(
+                        cubit.isEnd
+                            ? Icons.arrow_upward
+                            : Icons.arrow_downward_outlined,
+                        color: cubit.isDark
+                            ? Colors.teal.withOpacity(0.4)
+                            : Colors.teal[100],
+                      ),
+                      onPressed: () {
+                        cubit.isEnd
+                            ? _controller
+                                .jumpTo(_controller.position.minScrollExtent)
+                            : _controller
+                                .jumpTo(_controller.position.maxScrollExtent);
+                        cubit.switchEndBottom();
+                      },
+                    ),
                     backgroundColor:
                         cubit.isDark ? Color(0xff22252b) : Colors.white,
                     body: SingleChildScrollView(
+                      controller: _controller,
+                      key: PageStorageKey<String>('PopularPage'),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
                             padding:
@@ -80,9 +108,10 @@ class HomeScreen extends StatelessWidget {
                             ),
                           ),
                           Container(
-                              width: MediaQuery.of(context).size.width,
-                              //  height: MediaQuery.of(context).size.height * 0.4,
-                              child: allStationWidget(context, state)),
+                            width: MediaQuery.of(context).size.width,
+                            //  height: MediaQuery.of(context).size.height * 0.4,
+                            child: Allstations(state),
+                          ),
                         ],
                       ),
                     ),

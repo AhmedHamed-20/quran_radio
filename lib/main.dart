@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quran_radio/layouts/layout_screen.dart';
 import 'package:quran_radio/models/darkmodecach.dart';
 import 'package:quran_radio/models/states/states.dart';
-import 'package:quran_radio/layouts/layout_screen.dart';
 import 'package:splash_screen_view/SplashScreenView.dart';
 
 import 'models/cubit/cubit.dart';
@@ -47,7 +46,7 @@ class MyApp extends StatelessWidget {
             home: SplashScreenView(
               imageSrc: 'assets/images/splash.gif',
               imageSize: 200,
-              duration: 6000,
+              duration: 3000,
               speed: 5,
 
               pageRouteTransition: PageRouteTransition.CupertinoPageRoute,

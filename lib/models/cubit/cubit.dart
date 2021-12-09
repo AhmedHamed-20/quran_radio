@@ -25,6 +25,11 @@ class Appcubit extends Cubit<AppState> {
   ];
 
   bool isDark = false;
+  bool isEnd = false;
+  switchEndBottom() {
+    isEnd = !isEnd;
+    emit(ChangeState());
+  }
 
   void toggleDarkTheme({bool? valueFromCach}) {
     if (valueFromCach != null) {

@@ -32,10 +32,10 @@ class NotFonundSearch extends AppState {}
 
 class ChangeTheme extends AppState {}
 
-
-
 class AppDeleteFromDataBase extends AppState {}
 
 class PlayErrorState extends AppState {}
 
 class NoInternetState extends AppState {}
+
+class ChangeState extends AppState {}

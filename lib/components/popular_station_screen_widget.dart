@@ -9,12 +9,14 @@ Widget popularStationWidget(BuildContext context) {
   return ListView.builder(
       physics: BouncingScrollPhysics(),
       padding: EdgeInsets.all(8),
+      shrinkWrap: true,
       scrollDirection: Axis.horizontal,
       itemCount: popular.length,
       itemBuilder: (context, index) {
         return Padding(
           padding: EdgeInsets.all(8),
           child: InkWell(
+              borderRadius: BorderRadius.circular(60),
               child: popularStation(
                 context: context,
                 name: popular[index],
